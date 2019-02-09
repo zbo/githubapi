@@ -4,6 +4,7 @@ import json
 import shutil
 
 output = './out'
+inputfile = './in'
 path = '/Users/zhu/Downloads/cache_details'
 defect_path = './defects'
 non_defects_path = './non_defects'
@@ -41,14 +42,15 @@ def loadjson(file):
 
 
 def MoveFileToDefects(file,de):
-    log.write('{0}|{1}|\n'.format(de,file),output)
+    log.write('{0}|{1}\n'.format(de,file),output)
 
 
 def MoveFileToNonDefects(file):
     # shutil.copy(file, non_defects_path)
     print(file)
 
-
+def GetChangedFilesLink(j):
+    log.write('{0}/files\n'.format(j['url']), inputfile)
 
 
 def JudgeDefect(file):
@@ -57,6 +59,7 @@ def JudgeDefect(file):
         pass
     elif 'DE' in j['head']['ref']:
         MoveFileToDefects(file, j['head']['ref'])
+        GetChangedFilesLink(j)
     else:
         MoveFileToNonDefects(file)
 
