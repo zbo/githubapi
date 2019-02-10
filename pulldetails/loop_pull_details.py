@@ -1,7 +1,8 @@
 import os
+
 import log
-import json
-import shutil
+
+from pulldetails.log import get_sub_folder, get_sub_files, loadjson
 
 output = './out'
 inputfile = './in'
@@ -9,36 +10,6 @@ path = '/Users/zhu/Downloads/cache_details'
 defect_path = './defects'
 non_defects_path = './non_defects'
 count = 0
-
-
-def get_sub_folder(path):
-    ret = []
-    children = os.listdir(path)
-    for child in children:
-        child = os.path.join(path, child)
-        if os.path.isdir(child):
-            ret.append(child)
-    return ret
-
-
-def get_sub_files(path):
-    ret = []
-    if not os.path.exists(path):
-        return ret
-    children = os.listdir(path)
-    for child in children:
-        child = os.path.join(path, child)
-        if not os.path.isdir(child):
-            ret.append(child)
-    return ret
-
-
-def loadjson(file):
-    f = open(file, 'r', encoding='UTF-8')
-    a = f.read()
-    j = json.loads(str(a))
-    f.close()
-    return j
 
 
 def MoveFileToDefects(file,de):
@@ -54,7 +25,7 @@ def GetChangedFilesLink(j):
 
 
 def JudgeDefect(file):
-    j = loadjson(file)
+    j = log.loadjson(file)
     if len(j) == 0:
         pass
     elif 'DE' in j['head']['ref']:
@@ -65,7 +36,7 @@ def JudgeDefect(file):
 
 
 def process(cache_path):
-    sub_files = get_sub_files(cache_path)
+    sub_files = log.get_sub_files(cache_path)
     for file in sub_files:
         JudgeDefect(file)
 
@@ -81,8 +52,8 @@ if __name__ == '__main__':
     # clear_path(non_defects_path)
     # os.mkdir(defect_path)
     # os.mkdir(non_defects_path)
-    sub = get_sub_folder(path)
+    sub = log.get_sub_folder(path)
     for folder in sub:
-        sub2 = get_sub_folder(folder)
+        sub2 = log.get_sub_folder(folder)
         for one in sub2:
             process(one)
