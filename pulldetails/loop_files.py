@@ -7,15 +7,21 @@ output = './out_file'
 path = '/Users/zhu/Downloads/cache_details_processed'
 
 
+def extract_all_changed_files(j):
+    for n in j:
+        print(n)
+
+
 def process(cache_path):
     sub_files = log.get_sub_files(cache_path)
     for file in sub_files:
         j = log.loadjson(file)
+        if len(j) == 0:
+            continue
         if 'message' in j:
             continue
         try:
-            log.write(str(j[0]['changes']), output)
-
+            extract_all_changed_files(j)
         except:
             print(file)
 
