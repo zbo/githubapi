@@ -6,10 +6,18 @@ output = './out_file'
 
 path = '/Users/zhu/Downloads/cache_details_processed'
 
+file_dict = {}
+
 
 def extract_all_changed_files(j):
     for n in j:
-        print(n)
+        key = n['filename']
+        if not key in file_dict:
+            file_dict[key] = 1
+        else:
+            value = file_dict[key]
+            value = value + 1
+            file_dict[key] = value
 
 
 def process(cache_path):
@@ -24,6 +32,7 @@ def process(cache_path):
             extract_all_changed_files(j)
         except:
             print(file)
+            raise
 
 
 if __name__ == '__main__':
@@ -34,3 +43,4 @@ if __name__ == '__main__':
         for one in sub2:
             process(one)
             log.write('\n', output)
+    pass
