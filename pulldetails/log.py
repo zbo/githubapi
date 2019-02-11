@@ -42,3 +42,20 @@ def loadjson(file):
     j = json.loads(str(a))
     f.close()
     return j
+
+
+def read_all(in_path):
+    ret = []
+    f = open(in_path, 'r', encoding='UTF-8')
+    a = f.readline().strip()
+    while a != '':
+        ret.append(a)
+        a = f.readline().strip()
+    return ret
+
+
+def read_token():
+    f = open('./token', 'r', encoding='UTF-8')
+    a = f.read()
+    f.close()
+    return a
